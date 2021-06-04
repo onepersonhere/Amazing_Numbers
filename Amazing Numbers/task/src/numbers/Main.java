@@ -257,99 +257,105 @@ public class Main {
     static void testCases(long num1, long num2, String pname){
         long num = 0;
         long maxLongValue = Long.MAX_VALUE;
-        switch (pname){
-            case "EVEN":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(ifEven(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
+        if(pname.equalsIgnoreCase("EVEN")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (ifEven(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
                 }
-            case "ODD":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(!ifEven(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
+                if (num2 == 0) {
+                    break;
                 }
-            /***case "BUZZ":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(ifDivisible(num) || ifEnd7(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
-                }
-            case "DUCK":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(ifDuck(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
-                }
-            case "PALINDROMIC":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(ifPalindromic(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
-                }
-            case "GAPFUL":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(ifGapful(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
-                }
-            case "SPY":
-                for(long i = num1; i < maxLongValue - num1; i++){
-                    num = i;
-                    if(ifSpy(num)){
-                        System.out.print(num + " is");
-                        testConditions(num);
-                        System.out.println("");
-                        num2--;
-                    }
-                    if(num2 == 0){
-                        break;
-                    }
-                }***/
+            }
         }
+        if(pname.equalsIgnoreCase("ODD")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (!ifEven(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+        if(pname.equalsIgnoreCase("BUZZ")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (ifDivisible(num) || ifEnd7(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+        if(pname.equalsIgnoreCase("DUCK")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (ifDuck(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+        if(pname.equalsIgnoreCase("PALINDROMIC")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (ifPalindromic(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+        if(pname.equalsIgnoreCase("GAPFUL")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (ifGapful(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+        if(pname.equalsIgnoreCase("SPY")) {
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                if (ifSpy(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+
     }
     static void triplevar(long num1, long num2, String pname){
         String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY"};
