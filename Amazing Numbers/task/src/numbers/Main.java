@@ -6,6 +6,8 @@ import java.util.Scanner;
 import static java.lang.Math.floor;
 import static java.lang.System.exit;
 
+
+
 public class Main {
     static void welcomeMsg(){
         System.out.print("Welcome to Amazing Numbers!\n\nSupported requests:\n" +
@@ -112,17 +114,67 @@ public class Main {
             line = s.nextLine();
         }
 
-        boolean twonums = false;
         int spaceindex = 0;
+        int numOfSpace = 0;
         byte[] byteArr = line.getBytes();
         for(int i = 0; i < byteArr.length; i++){
             if(byteArr[i] == ' '){
-                twonums = true;
+                numOfSpace++;
                 spaceindex = i;
             }
         }
 
-        if(twonums){
+        if(numOfSpace == 2){
+            int firstspaceindex = 0;
+            for(int i = 0; i < byteArr.length; i++){
+                if(byteArr[i] == ' '){
+                    firstspaceindex = i;
+                    break;
+                }
+            }
+            byte[] Num1 = new byte[firstspaceindex];
+            byte[] Num2 = new byte[spaceindex - firstspaceindex - 1];
+            byte[] PName = new byte[byteArr.length - spaceindex - 1];
+            for(int i = 0; i < firstspaceindex; i++){
+                Num1[i] = byteArr[i];
+            }
+            for(int j = 0; j < spaceindex - firstspaceindex - 1; j++){
+                Num2[j] = byteArr[j + firstspaceindex + 1];
+            }
+            for(int k = 0; k < byteArr.length - spaceindex - 1; k++){
+                PName[k] = byteArr[k + spaceindex + 1];
+            }
+            String sNum1 = new String(Num1);
+            String sNum2 = new String(Num2);
+            String pname = new String(PName);
+            //System.out.println("Num1 = " + sNum1 + " Num2 = " + sNum2 + " PNum = " + pname);
+
+            num1 = Long.parseLong(sNum1);
+            num2 = Long.parseLong(sNum2);
+            pname.toUpperCase();
+
+            if(num1 == 0){
+                ifZero(num);
+            }
+            if((num1 < 1) && (num2 < 1)){
+                System.out.println("The first parameter should be a natural number or zero.");
+                System.out.println("The second parameter should be a natural number.");
+
+                scanLine();
+            }else if(num1 < 1){
+                System.out.println("The first parameter should be a natural number or zero.");
+
+                scanLine();
+            }else if(num2 < 1){
+                System.out.println("The second parameter should be a natural number.");
+
+                scanLine();
+            }
+
+            triplevar(num1, num2, pname);
+        }
+
+        if(numOfSpace == 1){
             byte[] Num1 = new byte[spaceindex];
             byte[] Num2 = new byte[byteArr.length - spaceindex - 1];
             for(int i = 0; i < spaceindex; i++){
@@ -156,7 +208,8 @@ public class Main {
             }
 
             doubleNum(num1, num2);
-        }else{
+        }
+        if(numOfSpace == 0){
             num = Long.parseLong(line);
             ifZero(num);
             if((floor(num) != num) || (num < 1)) {
@@ -199,6 +252,122 @@ public class Main {
 
         if(ifSpy(num)){
             System.out.print(", spy");
+        }
+    }
+    static void testCases(long num1, long num2, String pname){
+        long num = 0;
+        long maxLongValue = Long.MAX_VALUE;
+        switch (pname){
+            case "EVEN":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(ifEven(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }
+            case "ODD":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(!ifEven(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }
+            /***case "BUZZ":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(ifDivisible(num) || ifEnd7(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }
+            case "DUCK":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(ifDuck(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }
+            case "PALINDROMIC":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(ifPalindromic(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }
+            case "GAPFUL":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(ifGapful(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }
+            case "SPY":
+                for(long i = num1; i < maxLongValue - num1; i++){
+                    num = i;
+                    if(ifSpy(num)){
+                        System.out.print(num + " is");
+                        testConditions(num);
+                        System.out.println("");
+                        num2--;
+                    }
+                    if(num2 == 0){
+                        break;
+                    }
+                }***/
+        }
+    }
+    static void triplevar(long num1, long num2, String pname){
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY"};
+        boolean bool = false;int i = 0;
+        for(; i < arr.length; i++){
+            if(pname.equalsIgnoreCase(arr[i])){
+                bool = true;
+                break;
+            }
+        }
+
+        if(bool){
+            testCases(num1, num2, arr[i]);
+            scanLine();
+        }else {
+            System.out.println("The property [" + pname.toUpperCase() + "] is wrong.");
+            System.out.println("Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY]");
+            scanLine();
         }
     }
     static void doubleNum(long num1, long num2) {
