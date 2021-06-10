@@ -128,7 +128,19 @@ public class Main {
         }
         return false;
     }
-
+    static boolean ifJumping(long num){
+        String snum = Long.toString(num);
+        int[] numArr = new int[snum.length()];
+        for(int i = 0; i < snum.length(); i++){
+            numArr[i] = snum.charAt(i) - '0';
+        }
+        for(int i = 0; i < snum.length() - 1;i++){
+            if(Math.abs(numArr[i] - numArr[i+1]) > 1){
+                return false;
+            }
+        }
+        return true;
+    }
 
     static void scanLine(){
         System.out.println("\nEnter a request:");
@@ -342,6 +354,10 @@ public class Main {
         if(ifSunny(num)){
             System.out.print(", sunny");
         }
+
+        if(ifJumping(num)){
+            System.out.print(", jumping");
+        }
     }
     static void testCases(long num1, long num2, String pname){
         long num = 0;
@@ -474,6 +490,21 @@ public class Main {
                 }
             }
         }
+        if(pname.equalsIgnoreCase("JUMPING")){
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                //  System.out.println("Not Sunny");
+                if (ifJumping(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
     }
     static boolean condition(long num, String pnm){
         if(pnm.equalsIgnoreCase("EVEN")) {
@@ -503,6 +534,9 @@ public class Main {
         if(pnm.equalsIgnoreCase("SUNNY")) {
             return ifSunny(num);
         }
+        if(pnm.equalsIgnoreCase("JUMPING")){
+            return ifJumping(num);
+        }
         return false;
     }
     static void test2Cases(long num1, long num2, String[] pnmArr){
@@ -523,7 +557,7 @@ public class Main {
 
     }
     static void quadvar(long num1, long num2, String[] pnmArr){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY"};
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING"};
 
         if(pnmArr[0].equalsIgnoreCase("EVEN") && pnmArr[1].equalsIgnoreCase("ODD")){
             System.out.println("The request contains mutually exclusive properties: "
@@ -591,7 +625,7 @@ public class Main {
         }
     }
     static void triplevar(long num1, long num2, String pname){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY"};
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING"};
         boolean bool = false;
         int i = 0;
         for(; i < arr.length; i++){
@@ -672,6 +706,12 @@ public class Main {
             System.out.println("       sunny: true");
         }else{
             System.out.println("       sunny: false");
+        }
+
+        if(ifJumping(num)){
+            System.out.println("     jumping: true");
+        }else{
+            System.out.println("     jumping: false");
         }
         System.out.println("");
 
