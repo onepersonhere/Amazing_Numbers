@@ -24,6 +24,7 @@ public class Main {
                         "  * the first parameter represents a starting number;\n" +
                         "  * the second parameter shows how many consecutive numbers are to be processed;\n" +
                         "- two natural numbers and properties to search for;\n" +
+                        "- a property preceded by minus must not be present in numbers;\n" +
                         "- separate the parameters with one space;\n" +
                         "- enter 0 to exit.");
 
@@ -48,6 +49,12 @@ public class Main {
     }
     static boolean ifEnd7(long num){
         if (num % 10 == 7) {
+            return true;
+        }
+        return false;
+    }
+    static boolean ifBuzz(long num){
+        if(ifDivisible(num) || ifEnd7(num)){
             return true;
         }
         return false;
@@ -154,6 +161,9 @@ public class Main {
     static boolean ifHappy(long num){
         long startingnum = num;
         int n = 0;
+        if(num == 1){
+            return true;
+        }
         while(num != 1) {
             //System.out.println(num);
             long total = 0;
@@ -361,7 +371,7 @@ public class Main {
             return !ifEven(num);
         }
         if(pnm.equalsIgnoreCase("BUZZ")) {
-            return (ifDivisible(num) || ifEnd7(num));
+            return ifBuzz(num);
         }
         if(pnm.equalsIgnoreCase("DUCK")) {
             return ifDuck(num);
@@ -389,6 +399,42 @@ public class Main {
         }
         if(pnm.equalsIgnoreCase("HAPPY")){
             return ifHappy(num);
+        }
+        if(pnm.equalsIgnoreCase("-EVEN")) {
+            return !ifEven(num);
+        }
+        if(pnm.equalsIgnoreCase("-ODD")) {
+            return ifEven(num);
+        }
+        if(pnm.equalsIgnoreCase("-BUZZ")) {
+            return !ifBuzz(num);
+        }
+        if(pnm.equalsIgnoreCase("-DUCK")) {
+            return !ifDuck(num);
+        }
+        if(pnm.equalsIgnoreCase("-PALINDROMIC")) {
+            return !ifPalindromic(num);
+        }
+        if(pnm.equalsIgnoreCase("-GAPFUL")) {
+            return !ifGapful(num);
+        }
+        if(pnm.equalsIgnoreCase("-SPY")) {
+            return !ifSpy(num);
+        }
+        if(pnm.equalsIgnoreCase("-SQUARE")) {
+            return !ifSquare(num);
+        }
+        if(pnm.equalsIgnoreCase("-SUNNY")) {
+            return !ifSunny(num);
+        }
+        if(pnm.equalsIgnoreCase("-JUMPING")){
+            return !ifJumping(num);
+        }
+        if(pnm.equalsIgnoreCase("-SAD")){
+            return !ifSad(num);
+        }
+        if(pnm.equalsIgnoreCase("-HAPPY")){
+            return !ifHappy(num);
         }
         return false;
     }
@@ -424,7 +470,9 @@ public class Main {
 
     }
     static void multivar(long num1, long num2, String[] pnmArr){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING", "SAD", "HAPPY"};
+        String arr1[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING", "SAD", "HAPPY"};
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING", "SAD", "HAPPY",
+                "-EVEN", "-ODD", "-BUZZ", "-DUCK", "-PALINDROMIC", "-GAPFUL", "-SPY", "-SQUARE", "-SUNNY", "-JUMPING", "-SAD", "-HAPPY"};
 
         List<String> list = new ArrayList<String>();
 
@@ -453,7 +501,43 @@ public class Main {
                                 + "\nThere are no numbers with these properties.");
                         scanLine();
                     }
+                    if (pnmArr[i].equalsIgnoreCase("-EVEN") && pnmArr[j].equalsIgnoreCase("-ODD")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("-ODD") && pnmArr[j].equalsIgnoreCase("ODD")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("EVEN") && pnmArr[j].equalsIgnoreCase("-EVEN")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
                     if (pnmArr[i].equalsIgnoreCase("DUCK") && pnmArr[j].equalsIgnoreCase("SPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("-DUCK") && pnmArr[j].equalsIgnoreCase("-SPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("-SPY") && pnmArr[j].equalsIgnoreCase("SPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("DUCK") && pnmArr[j].equalsIgnoreCase("-DUCK")) {
                         System.out.println("The request contains mutually exclusive properties: "
                                 + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
                                 + "\nThere are no numbers with these properties.");
@@ -465,7 +549,67 @@ public class Main {
                                 + "\nThere are no numbers with these properties.");
                         scanLine();
                     }
+                    if (pnmArr[i].equalsIgnoreCase("-SUNNY") && pnmArr[j].equalsIgnoreCase("-SQUARE")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("-SUNNY") && pnmArr[j].equalsIgnoreCase("SUNNY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("SQUARE") && pnmArr[j].equalsIgnoreCase("-SQUARE")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
                     if (pnmArr[i].equalsIgnoreCase("SAD") && pnmArr[j].equalsIgnoreCase("HAPPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("-SAD") && pnmArr[j].equalsIgnoreCase("-HAPPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("-HAPPY") && pnmArr[j].equalsIgnoreCase("HAPPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("SAD") && pnmArr[j].equalsIgnoreCase("-SAD")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("GAPFUL") && pnmArr[j].equalsIgnoreCase("-GAPFUL")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("PALINDROMIC") && pnmArr[j].equalsIgnoreCase("-PALINDROMIC")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("JUMPING") && pnmArr[j].equalsIgnoreCase("-JUMPING")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("BUZZ") && pnmArr[j].equalsIgnoreCase("-BUZZ")) {
                         System.out.println("The request contains mutually exclusive properties: "
                                 + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
                                 + "\nThere are no numbers with these properties.");
@@ -477,11 +621,11 @@ public class Main {
             scanLine();
         }else if(wrongCases.length == 1){
             System.out.println("The property " + Arrays.toString(wrongCases).toUpperCase() + " is wrong.");
-            System.out.println("Available properties: " + Arrays.toString(arr));
+            System.out.println("Available properties: " + Arrays.toString(arr1));
             scanLine();
         }else{
             System.out.println("The properties " + Arrays.toString(wrongCases).toUpperCase() + " are wrong.");
-            System.out.println("Available properties: " + Arrays.toString(arr));
+            System.out.println("Available properties: " + Arrays.toString(arr1));
             scanLine();
         }
     }
