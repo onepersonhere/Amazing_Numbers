@@ -1,20 +1,27 @@
 package numbers;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Math.floor;
+import static java.lang.Math.sqrt;
 import static java.lang.System.exit;
 
 
 
 public class Main {
     static void welcomeMsg(){
-        System.out.print("Welcome to Amazing Numbers!\n\nSupported requests:\n" +
+        System.out.print(
+                "Welcome to Amazing Numbers!\n\nSupported requests:\n" +
                 "- enter a natural number to know its properties;\n" +
                 "- enter two natural numbers to obtain the properties of the list:\n" +
                 "  * the first parameter represents a starting number;\n" +
                 "  * the second parameters show how many consecutive numbers are to be processed;\n" +
+                "- two natural numbers and two property to search for;\n" +
                 "- separate the parameters with one space;\n" +
                 "- enter 0 to exit.\n\n");
 
@@ -103,6 +110,16 @@ public class Main {
         }
         return false;
     }
+    static boolean ifSunny(long num){
+        double sqroot = Math.round(Math.sqrt(num + 1));
+        //  System.out.println(Math.sqrt(num + 1) + " " + sqroot + " " + Math.pow(sqroot, 2));
+        if((num + 1) == Math.pow(sqroot, 2)){
+            return true;
+        }
+        return false;
+    }
+
+
     static void scanLine(){
         System.out.println("\nEnter a request:");
         long num = 0, num1 = 0, num2 = 0;
@@ -111,38 +128,91 @@ public class Main {
 
         if(line.equals("")){
             welcomeMsg();
-            line = s.nextLine();
+            scanLine();
         }
 
-        int spaceindex = 0;
+        List<Integer> spaceLst = new ArrayList<Integer>();
         int numOfSpace = 0;
+
         byte[] byteArr = line.getBytes();
         for(int i = 0; i < byteArr.length; i++){
             if(byteArr[i] == ' '){
                 numOfSpace++;
-                spaceindex = i;
+                spaceLst.add(i);
+
             }
         }
-
-        if(numOfSpace == 2){
-            int firstspaceindex = 0;
-            for(int i = 0; i < byteArr.length; i++){
-                if(byteArr[i] == ' '){
-                    firstspaceindex = i;
-                    break;
-                }
-            }
-            byte[] Num1 = new byte[firstspaceindex];
-            byte[] Num2 = new byte[spaceindex - firstspaceindex - 1];
-            byte[] PName = new byte[byteArr.length - spaceindex - 1];
-            for(int i = 0; i < firstspaceindex; i++){
+        Integer[] spcIdx = spaceLst.toArray(new Integer[spaceLst.size()]);
+        //  System.out.println(numOfSpace);
+        if(numOfSpace > 3){
+            System.out.println("Stop");
+            int zero = 0;
+            ifZero(zero);
+        }
+        if(numOfSpace == 3){
+            byte[] Num1 = new byte[spcIdx[0]];
+            byte[] Num2 = new byte[spcIdx[1] - spcIdx[0] - 1];
+            byte[] PNm1 = new byte[spcIdx[2] - spcIdx[1] - 1];
+            byte[] PNm2 = new byte[byteArr.length - spcIdx[2] - 1];
+            for(int i = 0; i < spcIdx[0]; i++){
                 Num1[i] = byteArr[i];
             }
-            for(int j = 0; j < spaceindex - firstspaceindex - 1; j++){
-                Num2[j] = byteArr[j + firstspaceindex + 1];
+            for(int j = 0; j < spcIdx[1] - spcIdx[0] - 1; j++){
+                Num2[j] = byteArr[j + spcIdx[0] + 1];
             }
-            for(int k = 0; k < byteArr.length - spaceindex - 1; k++){
-                PName[k] = byteArr[k + spaceindex + 1];
+            for(int k = 0; k < spcIdx[2] - spcIdx[1] - 1; k++){
+                PNm1[k] = byteArr[k + spcIdx[1] + 1];
+            }
+            for(int l = 0; l < byteArr.length - spcIdx[2] - 1; l++){
+                PNm2[l] = byteArr[l + spcIdx[2] + 1];
+            }
+
+            String sNum1 = new String(Num1);
+            String sNum2 = new String(Num2);
+            String pnm1 = new String(PNm1);
+            String pnm2 = new String(PNm2);
+
+            num1 = Long.parseLong(sNum1);
+            num2 = Long.parseLong(sNum2);
+
+            pnm1.toUpperCase();
+            pnm2.toUpperCase();
+
+            String[] pnmArr = {pnm1, pnm2};
+
+            if(num1 == 0){
+                ifZero(num);
+            }
+            if((num1 < 1) && (num2 < 1)){
+                System.out.println("The first parameter should be a natural number or zero.");
+                System.out.println("The second parameter should be a natural number.");
+
+                scanLine();
+            }else if(num1 < 1){
+                System.out.println("The first parameter should be a natural number or zero.");
+
+                scanLine();
+            }else if(num2 < 1){
+                System.out.println("The second parameter should be a natural number.");
+
+                scanLine();
+            }
+
+            quadvar(num1, num2, pnmArr);
+        }
+        if(numOfSpace == 2){
+
+            byte[] Num1 = new byte[spcIdx[0]];
+            byte[] Num2 = new byte[spcIdx[1] - spcIdx[0] - 1];
+            byte[] PName = new byte[byteArr.length - spcIdx[1] - 1];
+            for(int i = 0; i < spcIdx[0]; i++){
+                Num1[i] = byteArr[i];
+            }
+            for(int j = 0; j < spcIdx[1] - spcIdx[0] - 1; j++){
+                Num2[j] = byteArr[j + spcIdx[0] + 1];
+            }
+            for(int k = 0; k < byteArr.length - spcIdx[1] - 1; k++){
+                PName[k] = byteArr[k + spcIdx[1] + 1];
             }
             String sNum1 = new String(Num1);
             String sNum2 = new String(Num2);
@@ -175,14 +245,14 @@ public class Main {
         }
 
         if(numOfSpace == 1){
-            byte[] Num1 = new byte[spaceindex];
-            byte[] Num2 = new byte[byteArr.length - spaceindex - 1];
-            for(int i = 0; i < spaceindex; i++){
+            byte[] Num1 = new byte[spcIdx[0]];
+            byte[] Num2 = new byte[byteArr.length - spcIdx[0] - 1];
+            for(int i = 0; i < spcIdx[0]; i++){
                 Num1[i] = byteArr[i];
             }
 
-            for(int j = 0; j < byteArr.length - spaceindex - 1; j++){
-                Num2[j] = byteArr[j + spaceindex + 1];
+            for(int j = 0; j < byteArr.length - spcIdx[0] - 1; j++){
+                Num2[j] = byteArr[j + spcIdx[0] + 1];
             }
             String sNum1 = new String(Num1);
             String sNum2 = new String(Num2);
@@ -209,6 +279,7 @@ public class Main {
 
             doubleNum(num1, num2);
         }
+
         if(numOfSpace == 0){
             num = Long.parseLong(line);
             ifZero(num);
@@ -252,6 +323,9 @@ public class Main {
 
         if(ifSpy(num)){
             System.out.print(", spy");
+        }
+        if(ifSunny(num)){
+            System.out.print(", sunny");
         }
     }
     static void testCases(long num1, long num2, String pname){
@@ -355,11 +429,99 @@ public class Main {
                 }
             }
         }
+        if(pname.equalsIgnoreCase("SUNNY")){
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                //  System.out.println("Not Sunny");
+                if (ifSunny(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
+    }
+    static void test2Cases(long num1, long num2, String[] pnmArr){
+        long num = 0;
+        long maxLongValue = Long.MAX_VALUE;
 
     }
+    static void quadvar(long num1, long num2, String[] pnmArr){
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SUNNY"};
+
+        if(pnmArr[0].equalsIgnoreCase("EVEN") && pnmArr[1].equalsIgnoreCase("ODD")){
+            System.out.println("The request contains mutually exclusive properties: "
+                    + Arrays.toString(pnmArr).toUpperCase()
+                    + "\nThere are no numbers with these properties.");
+            scanLine();
+        }
+        if(pnmArr[0].equalsIgnoreCase("ODD") && pnmArr[1].equalsIgnoreCase("EVEN")){
+            System.out.println("The request contains mutually exclusive properties: "
+                    + Arrays.toString(pnmArr).toUpperCase()
+                    + "\nThere are no numbers with these properties.");
+            scanLine();
+        }
+        if(pnmArr[0].equalsIgnoreCase("DUCK") && pnmArr[1].equalsIgnoreCase("SPY")){
+            System.out.println("The request contains mutually exclusive properties: "
+                    + Arrays.toString(pnmArr).toUpperCase()
+                    + "\nThere are no numbers with these properties.");
+            scanLine();
+        }
+        if(pnmArr[0].equalsIgnoreCase("SPY") && pnmArr[1].equalsIgnoreCase("DUCK")){
+            System.out.println("The request contains mutually exclusive properties: "
+                    + Arrays.toString(pnmArr).toUpperCase()
+                    + "\nThere are no numbers with these properties.");
+            scanLine();
+        }
+        if(pnmArr[0].equalsIgnoreCase("SUNNY") && pnmArr[1].equalsIgnoreCase("SQUARE")){
+            System.out.println("The request contains mutually exclusive properties: "
+                    + Arrays.toString(pnmArr).toUpperCase()
+                    + "\nThere are no numbers with these properties.");
+            scanLine();
+        }
+        if(pnmArr[0].equalsIgnoreCase("SQUARE") && pnmArr[1].equalsIgnoreCase("SUNNY")){
+            System.out.println("The request contains mutually exclusive properties: "
+                    + Arrays.toString(pnmArr).toUpperCase()
+                    + "\nThere are no numbers with these properties.");
+            scanLine();
+        }
+
+        int matchcase = 0;
+        int j = 0;
+        for(; j < 2; j++){
+            for(int i = 0; i < arr.length; i++){
+                //  System.out.println(pnmArr[j] + " " + arr[i]);
+                if(pnmArr[j].equalsIgnoreCase(arr[i])){
+                    matchcase++;
+                }
+            }
+        }
+
+        if(matchcase == 2){
+            test2Cases(num1, num2, pnmArr);
+            scanLine();
+        }else if(matchcase == 1) {
+            if(j == 0){
+                System.out.println("The property [" + pnmArr[1].toUpperCase() + "] is wrong.");
+            }else{
+                System.out.println("The property [" + pnmArr[0].toUpperCase() + "] is wrong.");
+            }
+            System.out.println("Available properties: " + Arrays.toString(arr));
+            scanLine();
+        }else{
+            System.out.println("The properties " + Arrays.toString(pnmArr).toUpperCase() + " are wrong.");
+            System.out.println("Available properties: " + Arrays.toString(arr));
+            scanLine();
+        }
+    }
     static void triplevar(long num1, long num2, String pname){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY"};
-        boolean bool = false;int i = 0;
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SUNNY"};
+        boolean bool = false;
+        int i = 0;
         for(; i < arr.length; i++){
             if(pname.equalsIgnoreCase(arr[i])){
                 bool = true;
@@ -368,11 +530,12 @@ public class Main {
         }
 
         if(bool){
+            //  System.out.println(arr[i]);
             testCases(num1, num2, arr[i]);
             scanLine();
         }else {
             System.out.println("The property [" + pname.toUpperCase() + "] is wrong.");
-            System.out.println("Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY]");
+            System.out.println("Available properties: " + Arrays.toString(arr));
             scanLine();
         }
     }
@@ -386,17 +549,10 @@ public class Main {
         scanLine();
     }
     static void singleNum(long num){
-        boolean isEven = ifEven(num);
-        boolean isDivisible = ifDivisible(num);
-        boolean ends7 = ifEnd7(num);
-        boolean isDuck = ifDuck(num);
-        boolean isPalindromic = ifPalindromic(num);
-        boolean isGapful = ifGapful(num);
-        boolean isSpy = ifSpy(num);
 
         System.out.println("Properties of " + num);
 
-        if(isEven){
+        if(ifEven(num)){
             System.out.println("        even: true");
             System.out.println("         odd: false");
         }else{
@@ -404,34 +560,40 @@ public class Main {
             System.out.println("         odd: true");
         }
 
-        if (isDivisible || ends7) {
+        if (ifDivisible(num) || ifEnd7(num)) {
             System.out.println("        buzz: true");
         } else {
             System.out.println("        buzz: false");
         }
 
-        if (isDuck) {
+        if (ifDuck(num)) {
             System.out.println("        duck: true");
         } else {
             System.out.println("        duck: false");
         }
 
-        if(isPalindromic){
+        if(ifPalindromic(num)){
             System.out.println(" palindromic: true");
         }else{
             System.out.println(" palindromic: false");
         }
 
-        if(isGapful){
+        if(ifGapful(num)){
             System.out.println("      gapful: true");
         }else{
             System.out.println("      gapful: false");
         }
 
-        if(isSpy){
+        if(ifSpy(num)){
             System.out.println("         spy: true");
         }else{
             System.out.println("         spy: false");
+        }
+
+        if(ifSunny(num)){
+            System.out.println("       sunny: true");
+        }else{
+            System.out.println("       sunny: false");
         }
         System.out.println("");
 
