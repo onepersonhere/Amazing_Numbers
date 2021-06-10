@@ -22,8 +22,8 @@ public class Main {
                         "- enter a natural number to know its properties;\n" +
                         "- enter two natural numbers to obtain the properties of the list:\n" +
                         "  * the first parameter represents a starting number;\n" +
-                        "  * the second parameters show how many consecutive numbers are to be processed;\n" +
-                        "- two natural numbers and two properties to search for;\n" +
+                        "  * the second parameter shows how many consecutive numbers are to be processed;\n" +
+                        "- two natural numbers and properties to search for;\n" +
                         "- separate the parameters with one space;\n" +
                         "- enter 0 to exit.");
 
@@ -142,6 +142,7 @@ public class Main {
         return true;
     }
 
+
     static void scanLine(){
         System.out.println("\nEnter a request:");
         long num = 0, num1 = 0, num2 = 0;
@@ -166,41 +167,30 @@ public class Main {
         }
         Integer[] spcIdx = spaceLst.toArray(new Integer[spaceLst.size()]);
         //  System.out.println(numOfSpace);
-        if(numOfSpace > 3){
-            System.out.println("Stop");
-            int zero = 0;
-            ifZero(zero);
-        }
-        if(numOfSpace == 3){
+
+        if(numOfSpace >= 3){
             byte[] Num1 = new byte[spcIdx[0]];
             byte[] Num2 = new byte[spcIdx[1] - spcIdx[0] - 1];
-            byte[] PNm1 = new byte[spcIdx[2] - spcIdx[1] - 1];
-            byte[] PNm2 = new byte[byteArr.length - spcIdx[2] - 1];
+            byte[] PNm = new byte[byteArr.length - spcIdx[1] - 1];
             for(int i = 0; i < spcIdx[0]; i++){
                 Num1[i] = byteArr[i];
             }
             for(int j = 0; j < spcIdx[1] - spcIdx[0] - 1; j++){
                 Num2[j] = byteArr[j + spcIdx[0] + 1];
             }
-            for(int k = 0; k < spcIdx[2] - spcIdx[1] - 1; k++){
-                PNm1[k] = byteArr[k + spcIdx[1] + 1];
-            }
-            for(int l = 0; l < byteArr.length - spcIdx[2] - 1; l++){
-                PNm2[l] = byteArr[l + spcIdx[2] + 1];
+            for(int k = 0; k < byteArr.length - spcIdx[1] - 1; k++){
+                PNm[k] = byteArr[k + spcIdx[1] + 1];
             }
 
             String sNum1 = new String(Num1);
             String sNum2 = new String(Num2);
-            String pnm1 = new String(PNm1);
-            String pnm2 = new String(PNm2);
+            String pnm = new String(PNm);
 
             num1 = Long.parseLong(sNum1);
             num2 = Long.parseLong(sNum2);
 
-            pnm1.toUpperCase();
-            pnm2.toUpperCase();
-
-            String[] pnmArr = {pnm1, pnm2};
+            pnm.toUpperCase();
+            String[] pnmArr = pnm.split(" "); // System.out.println(Arrays.toString(pnmArr));
 
             if(num1 == 0){
                 ifZero(num);
@@ -220,7 +210,7 @@ public class Main {
                 scanLine();
             }
 
-            quadvar(num1, num2, pnmArr);
+            multivar(num1, num2, pnmArr);
         }
         if(numOfSpace == 2){
 
@@ -556,70 +546,55 @@ public class Main {
         }
 
     }
-    static void quadvar(long num1, long num2, String[] pnmArr){
+    static void multivar(long num1, long num2, String[] pnmArr){
         String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING"};
 
-        if(pnmArr[0].equalsIgnoreCase("EVEN") && pnmArr[1].equalsIgnoreCase("ODD")){
-            System.out.println("The request contains mutually exclusive properties: "
-                    + Arrays.toString(pnmArr).toUpperCase()
-                    + "\nThere are no numbers with these properties.");
-            scanLine();
-        }
-        if(pnmArr[0].equalsIgnoreCase("ODD") && pnmArr[1].equalsIgnoreCase("EVEN")){
-            System.out.println("The request contains mutually exclusive properties: "
-                    + Arrays.toString(pnmArr).toUpperCase()
-                    + "\nThere are no numbers with these properties.");
-            scanLine();
-        }
-        if(pnmArr[0].equalsIgnoreCase("DUCK") && pnmArr[1].equalsIgnoreCase("SPY")){
-            System.out.println("The request contains mutually exclusive properties: "
-                    + Arrays.toString(pnmArr).toUpperCase()
-                    + "\nThere are no numbers with these properties.");
-            scanLine();
-        }
-        if(pnmArr[0].equalsIgnoreCase("SPY") && pnmArr[1].equalsIgnoreCase("DUCK")){
-            System.out.println("The request contains mutually exclusive properties: "
-                    + Arrays.toString(pnmArr).toUpperCase()
-                    + "\nThere are no numbers with these properties.");
-            scanLine();
-        }
-        if(pnmArr[0].equalsIgnoreCase("SUNNY") && pnmArr[1].equalsIgnoreCase("SQUARE")){
-            System.out.println("The request contains mutually exclusive properties: "
-                    + Arrays.toString(pnmArr).toUpperCase()
-                    + "\nThere are no numbers with these properties.");
-            scanLine();
-        }
-        if(pnmArr[0].equalsIgnoreCase("SQUARE") && pnmArr[1].equalsIgnoreCase("SUNNY")){
-            System.out.println("The request contains mutually exclusive properties: "
-                    + Arrays.toString(pnmArr).toUpperCase()
-                    + "\nThere are no numbers with these properties.");
-            scanLine();
-        }
-
-        int matchcase = 0;
-        int j = 0;
-        for(; j < 2; j++){
-            for(int i = 0; i < arr.length; i++){
-                //  System.out.println(pnmArr[j] + " " + arr[i]);
-                if(pnmArr[j].equalsIgnoreCase(arr[i])){
-                    matchcase++;
+        for(int i = 0; i < pnmArr.length; i++) {
+            for(int j = i; j < pnmArr.length; j++) {
+                if (pnmArr[i].equalsIgnoreCase("EVEN") && pnmArr[j].equalsIgnoreCase("ODD")) {
+                    System.out.println("The request contains mutually exclusive properties: "
+                            + Arrays.toString(pnmArr).toUpperCase()
+                            + "\nThere are no numbers with these properties.");
+                    scanLine();
+                }
+                if (pnmArr[i].equalsIgnoreCase("DUCK") && pnmArr[j].equalsIgnoreCase("SPY")) {
+                    System.out.println("The request contains mutually exclusive properties: "
+                            + Arrays.toString(pnmArr).toUpperCase()
+                            + "\nThere are no numbers with these properties.");
+                    scanLine();
+                }
+                if (pnmArr[i].equalsIgnoreCase("SUNNY") && pnmArr[j].equalsIgnoreCase("SQUARE")) {
+                    System.out.println("The request contains mutually exclusive properties: "
+                            + Arrays.toString(pnmArr).toUpperCase()
+                            + "\nThere are no numbers with these properties.");
+                    scanLine();
                 }
             }
         }
 
-        if(matchcase == 2){
-            test2Cases(num1, num2, pnmArr);
-            scanLine();
-        }else if(matchcase == 1) {
-            if(j == 0){
-                System.out.println("The property [" + pnmArr[1].toUpperCase() + "] is wrong.");
-            }else{
-                System.out.println("The property [" + pnmArr[0].toUpperCase() + "] is wrong.");
+        List<String> list = new ArrayList<String>();
+
+        int matchcase = 0;
+        for(int j = 0; j < pnmArr.length; j++){
+            boolean matchnocase = true;
+            for(int i = 0; i < arr.length; i++) {
+                //  System.out.println(pnmArr[j] + " " + arr[i]);
+                if (pnmArr[j].equalsIgnoreCase(arr[i])) {
+                    matchcase++;
+                    matchnocase = false;
+                }
             }
-            System.out.println("Available properties: " + Arrays.toString(arr));
-            scanLine();
+            if(matchnocase) {
+                list.add(pnmArr[j]);
+            }
+        }
+        String[] wrongCases =  list.toArray(new String[list.size()]);
+
+        if(matchcase == pnmArr.length){
+            //test2Cases(num1, num2, pnmArr);
+            //scanLine();
         }else{
-            System.out.println("The properties " + Arrays.toString(pnmArr).toUpperCase() + " are wrong.");
+            System.out.println("The properties " + Arrays.toString(wrongCases).toUpperCase() + " are wrong.");
             System.out.println("Available properties: " + Arrays.toString(arr));
             scanLine();
         }
