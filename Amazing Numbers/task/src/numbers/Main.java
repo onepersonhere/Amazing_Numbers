@@ -129,19 +129,57 @@ public class Main {
         return false;
     }
     static boolean ifJumping(long num){
+        if(num < 10){
+            return true;
+        }
         String snum = Long.toString(num);
         int[] numArr = new int[snum.length()];
         for(int i = 0; i < snum.length(); i++){
             numArr[i] = snum.charAt(i) - '0';
         }
         for(int i = 0; i < snum.length() - 1;i++){
-            if(Math.abs(numArr[i] - numArr[i+1]) > 1){
+            if(Math.abs(numArr[i] - numArr[i + 1]) != 1){
                 return false;
             }
         }
         return true;
     }
+    static boolean ifSad(long num){
 
+        if(!ifHappy(num)){
+            return true;
+        }
+        return false;
+    }
+    static boolean ifHappy(long num){
+        long startingnum = num;
+        int n = 0;
+        while(num != 1) {
+            //System.out.println(num);
+            long total = 0;
+            String snum = Long.toString(num);
+            int[] numArr = new int[snum.length()];
+            for (int i = 0; i < snum.length(); i++) {
+                numArr[i] = snum.charAt(i) - '0';
+            }
+            for(int i = 0; i < snum.length();i++){
+                total += Math.pow(numArr[i], 2);
+            }
+            num = total;
+
+            if(num == startingnum){
+                break;
+            }
+            if(num == 1){
+                return true;
+            }
+            if(n > 1000){
+                break;
+            }
+            n++;
+        }
+        return false;
+    }
 
     static void scanLine(){
         System.out.println("\nEnter a request:");
@@ -168,7 +206,7 @@ public class Main {
         Integer[] spcIdx = spaceLst.toArray(new Integer[spaceLst.size()]);
         //  System.out.println(numOfSpace);
 
-        if(numOfSpace >= 3){
+        if(numOfSpace >= 2){
             byte[] Num1 = new byte[spcIdx[0]];
             byte[] Num2 = new byte[spcIdx[1] - spcIdx[0] - 1];
             byte[] PNm = new byte[byteArr.length - spcIdx[1] - 1];
@@ -211,49 +249,6 @@ public class Main {
             }
 
             multivar(num1, num2, pnmArr);
-        }
-        if(numOfSpace == 2){
-
-            byte[] Num1 = new byte[spcIdx[0]];
-            byte[] Num2 = new byte[spcIdx[1] - spcIdx[0] - 1];
-            byte[] PName = new byte[byteArr.length - spcIdx[1] - 1];
-            for(int i = 0; i < spcIdx[0]; i++){
-                Num1[i] = byteArr[i];
-            }
-            for(int j = 0; j < spcIdx[1] - spcIdx[0] - 1; j++){
-                Num2[j] = byteArr[j + spcIdx[0] + 1];
-            }
-            for(int k = 0; k < byteArr.length - spcIdx[1] - 1; k++){
-                PName[k] = byteArr[k + spcIdx[1] + 1];
-            }
-            String sNum1 = new String(Num1);
-            String sNum2 = new String(Num2);
-            String pname = new String(PName);
-            //System.out.println("Num1 = " + sNum1 + " Num2 = " + sNum2 + " PNum = " + pname);
-
-            num1 = Long.parseLong(sNum1);
-            num2 = Long.parseLong(sNum2);
-            pname.toUpperCase();
-
-            if(num1 == 0){
-                ifZero(num);
-            }
-            if((num1 < 1) && (num2 < 1)){
-                System.out.println("The first parameter should be a natural number or zero.");
-                System.out.println("The second parameter should be a natural number.");
-
-                scanLine();
-            }else if(num1 < 1){
-                System.out.println("The first parameter should be a natural number or zero.");
-
-                scanLine();
-            }else if(num2 < 1){
-                System.out.println("The second parameter should be a natural number.");
-
-                scanLine();
-            }
-
-            triplevar(num1, num2, pname);
         }
 
         if(numOfSpace == 1){
@@ -338,7 +333,7 @@ public class Main {
         }
 
         if(ifSquare(num)){
-            System.out.println(", square");
+            System.out.print(", square");
         }
 
         if(ifSunny(num)){
@@ -348,154 +343,16 @@ public class Main {
         if(ifJumping(num)){
             System.out.print(", jumping");
         }
-    }
-    static void testCases(long num1, long num2, String pname){
-        long num = 0;
-        long maxLongValue = Long.MAX_VALUE;
-        if(pname.equalsIgnoreCase("EVEN")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (ifEven(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
+
+        if(ifSad(num)){
+            System.out.print(", sad");
         }
-        if(pname.equalsIgnoreCase("ODD")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (!ifEven(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("BUZZ")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (ifDivisible(num) || ifEnd7(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("DUCK")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (ifDuck(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("PALINDROMIC")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (ifPalindromic(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("GAPFUL")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (ifGapful(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("SPY")) {
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                if (ifSpy(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("SQUARE")){
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                //  System.out.println("Not Sunny");
-                if (ifSquare(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("SUNNY")){
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                //  System.out.println("Not Sunny");
-                if (ifSunny(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
-        }
-        if(pname.equalsIgnoreCase("JUMPING")){
-            for (long i = num1; i < maxLongValue - num1; i++) {
-                num = i;
-                //  System.out.println("Not Sunny");
-                if (ifJumping(num)) {
-                    System.out.print(num + " is");
-                    testConditions(num);
-                    System.out.println("");
-                    num2--;
-                }
-                if (num2 == 0) {
-                    break;
-                }
-            }
+
+        if(ifHappy(num)){
+            System.out.print(", happy");
         }
     }
+
     static boolean condition(long num, String pnm){
         if(pnm.equalsIgnoreCase("EVEN")) {
             return ifEven(num);
@@ -527,19 +384,39 @@ public class Main {
         if(pnm.equalsIgnoreCase("JUMPING")){
             return ifJumping(num);
         }
+        if(pnm.equalsIgnoreCase("SAD")){
+            return ifSad(num);
+        }
+        if(pnm.equalsIgnoreCase("HAPPY")){
+            return ifHappy(num);
+        }
         return false;
     }
-    static void test2Cases(long num1, long num2, String[] pnmArr){
+    static void testmultiCases(long num1, long num2, String[] pnmArr){
         long num = 0;
         long maxLongValue = Long.MAX_VALUE;
         for (long i = num1; i < maxLongValue - num1; i++) {
             num = i;
-            if(condition(num, pnmArr[0]) && condition(num, pnmArr[1])){
+
+            boolean matchedAll = false;
+
+            for(int j = 0; j < pnmArr.length; j++) {
+                //System.out.println(num + " " + pnmArr[j]);
+                if (condition(num, pnmArr[j])) {
+                    matchedAll = true;
+                }else{
+                    matchedAll = false;
+                    break;
+                }
+            }
+
+            if(matchedAll) {
                 System.out.print(num + " is");
                 testConditions(num);
                 System.out.println("");
                 num2--;
             }
+
             if (num2 == 0) {
                 break;
             }
@@ -547,30 +424,7 @@ public class Main {
 
     }
     static void multivar(long num1, long num2, String[] pnmArr){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING"};
-
-        for(int i = 0; i < pnmArr.length; i++) {
-            for(int j = i; j < pnmArr.length; j++) {
-                if (pnmArr[i].equalsIgnoreCase("EVEN") && pnmArr[j].equalsIgnoreCase("ODD")) {
-                    System.out.println("The request contains mutually exclusive properties: "
-                            + Arrays.toString(pnmArr).toUpperCase()
-                            + "\nThere are no numbers with these properties.");
-                    scanLine();
-                }
-                if (pnmArr[i].equalsIgnoreCase("DUCK") && pnmArr[j].equalsIgnoreCase("SPY")) {
-                    System.out.println("The request contains mutually exclusive properties: "
-                            + Arrays.toString(pnmArr).toUpperCase()
-                            + "\nThere are no numbers with these properties.");
-                    scanLine();
-                }
-                if (pnmArr[i].equalsIgnoreCase("SUNNY") && pnmArr[j].equalsIgnoreCase("SQUARE")) {
-                    System.out.println("The request contains mutually exclusive properties: "
-                            + Arrays.toString(pnmArr).toUpperCase()
-                            + "\nThere are no numbers with these properties.");
-                    scanLine();
-                }
-            }
-        }
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING", "SAD", "HAPPY"};
 
         List<String> list = new ArrayList<String>();
 
@@ -591,35 +445,47 @@ public class Main {
         String[] wrongCases =  list.toArray(new String[list.size()]);
 
         if(matchcase == pnmArr.length){
-            //test2Cases(num1, num2, pnmArr);
-            //scanLine();
+            for(int i = 0; i < pnmArr.length; i++) {
+                for(int j = 0; j < pnmArr.length; j++) {
+                    if (pnmArr[i].equalsIgnoreCase("EVEN") && pnmArr[j].equalsIgnoreCase("ODD")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("DUCK") && pnmArr[j].equalsIgnoreCase("SPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("SUNNY") && pnmArr[j].equalsIgnoreCase("SQUARE")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                    if (pnmArr[i].equalsIgnoreCase("SAD") && pnmArr[j].equalsIgnoreCase("HAPPY")) {
+                        System.out.println("The request contains mutually exclusive properties: "
+                                + "[" + pnmArr[i] + ", " + pnmArr[j] + "]"
+                                + "\nThere are no numbers with these properties.");
+                        scanLine();
+                    }
+                }
+            }
+            testmultiCases(num1, num2, pnmArr);
+            scanLine();
+        }else if(wrongCases.length == 1){
+            System.out.println("The property " + Arrays.toString(wrongCases).toUpperCase() + " is wrong.");
+            System.out.println("Available properties: " + Arrays.toString(arr));
+            scanLine();
         }else{
             System.out.println("The properties " + Arrays.toString(wrongCases).toUpperCase() + " are wrong.");
             System.out.println("Available properties: " + Arrays.toString(arr));
             scanLine();
         }
     }
-    static void triplevar(long num1, long num2, String pname){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING"};
-        boolean bool = false;
-        int i = 0;
-        for(; i < arr.length; i++){
-            if(pname.equalsIgnoreCase(arr[i])){
-                bool = true;
-                break;
-            }
-        }
 
-        if(bool){
-            //  System.out.println(arr[i]);
-            testCases(num1, num2, arr[i]);
-            scanLine();
-        }else {
-            System.out.println("The property [" + pname.toUpperCase() + "] is wrong.");
-            System.out.println("Available properties: " + Arrays.toString(arr));
-            scanLine();
-        }
-    }
     static void doubleNum(long num1, long num2) {
         for (long i = num1; i < num1 + num2; i++){
             System.out.print(i + " is");
@@ -687,6 +553,16 @@ public class Main {
             System.out.println("     jumping: true");
         }else{
             System.out.println("     jumping: false");
+        }
+        if(ifSad(num)){
+            System.out.println("         sad: true");
+        }else{
+            System.out.println("         sad: false");
+        }
+        if(ifHappy(num)){
+            System.out.println("       happy: true");
+        }else{
+            System.out.println("       happy: false");
         }
         System.out.println("");
 
