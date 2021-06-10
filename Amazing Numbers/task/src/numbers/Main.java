@@ -16,14 +16,16 @@ import static java.lang.System.exit;
 public class Main {
     static void welcomeMsg(){
         System.out.print(
-                "Welcome to Amazing Numbers!\n\nSupported requests:\n" +
-                "- enter a natural number to know its properties;\n" +
-                "- enter two natural numbers to obtain the properties of the list:\n" +
-                "  * the first parameter represents a starting number;\n" +
-                "  * the second parameters show how many consecutive numbers are to be processed;\n" +
-                "- two natural numbers and two property to search for;\n" +
-                "- separate the parameters with one space;\n" +
-                "- enter 0 to exit.\n\n");
+                "Welcome to Amazing Numbers!\n" +
+                        "\n" +
+                        "Supported requests:\n" +
+                        "- enter a natural number to know its properties;\n" +
+                        "- enter two natural numbers to obtain the properties of the list:\n" +
+                        "  * the first parameter represents a starting number;\n" +
+                        "  * the second parameters show how many consecutive numbers are to be processed;\n" +
+                        "- two natural numbers and two properties to search for;\n" +
+                        "- separate the parameters with one space;\n" +
+                        "- enter 0 to exit.");
 
     }
     static void ifZero(long num){
@@ -106,6 +108,14 @@ public class Main {
 
         }
         if(sum == product){
+            return true;
+        }
+        return false;
+    }
+    static boolean ifSquare(long num){
+        double sqroot = Math.round(Math.sqrt(num));
+        //  System.out.println(Math.sqrt(num + 1) + " " + sqroot + " " + Math.pow(sqroot, 2));
+        if(num == Math.pow(sqroot, 2)){
             return true;
         }
         return false;
@@ -324,6 +334,11 @@ public class Main {
         if(ifSpy(num)){
             System.out.print(", spy");
         }
+
+        if(ifSquare(num)){
+            System.out.println(", square");
+        }
+
         if(ifSunny(num)){
             System.out.print(", sunny");
         }
@@ -429,6 +444,21 @@ public class Main {
                 }
             }
         }
+        if(pname.equalsIgnoreCase("SQUARE")){
+            for (long i = num1; i < maxLongValue - num1; i++) {
+                num = i;
+                //  System.out.println("Not Sunny");
+                if (ifSquare(num)) {
+                    System.out.print(num + " is");
+                    testConditions(num);
+                    System.out.println("");
+                    num2--;
+                }
+                if (num2 == 0) {
+                    break;
+                }
+            }
+        }
         if(pname.equalsIgnoreCase("SUNNY")){
             for (long i = num1; i < maxLongValue - num1; i++) {
                 num = i;
@@ -445,13 +475,55 @@ public class Main {
             }
         }
     }
+    static boolean condition(long num, String pnm){
+        if(pnm.equalsIgnoreCase("EVEN")) {
+            return ifEven(num);
+        }
+        if(pnm.equalsIgnoreCase("ODD")) {
+            return !ifEven(num);
+        }
+        if(pnm.equalsIgnoreCase("BUZZ")) {
+            return (ifDivisible(num) || ifEnd7(num));
+        }
+        if(pnm.equalsIgnoreCase("DUCK")) {
+            return ifDuck(num);
+        }
+        if(pnm.equalsIgnoreCase("PALINDROMIC")) {
+            return ifPalindromic(num);
+        }
+        if(pnm.equalsIgnoreCase("GAPFUL")) {
+            return ifGapful(num);
+        }
+        if(pnm.equalsIgnoreCase("SPY")) {
+            return ifSpy(num);
+        }
+        if(pnm.equalsIgnoreCase("SQUARE")) {
+            return ifSquare(num);
+        }
+        if(pnm.equalsIgnoreCase("SUNNY")) {
+            return ifSunny(num);
+        }
+        return false;
+    }
     static void test2Cases(long num1, long num2, String[] pnmArr){
         long num = 0;
         long maxLongValue = Long.MAX_VALUE;
+        for (long i = num1; i < maxLongValue - num1; i++) {
+            num = i;
+            if(condition(num, pnmArr[0]) && condition(num, pnmArr[1])){
+                System.out.print(num + " is");
+                testConditions(num);
+                System.out.println("");
+                num2--;
+            }
+            if (num2 == 0) {
+                break;
+            }
+        }
 
     }
     static void quadvar(long num1, long num2, String[] pnmArr){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SUNNY"};
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY"};
 
         if(pnmArr[0].equalsIgnoreCase("EVEN") && pnmArr[1].equalsIgnoreCase("ODD")){
             System.out.println("The request contains mutually exclusive properties: "
@@ -519,7 +591,7 @@ public class Main {
         }
     }
     static void triplevar(long num1, long num2, String pname){
-        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SUNNY"};
+        String arr[] = {"EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY"};
         boolean bool = false;
         int i = 0;
         for(; i < arr.length; i++){
@@ -588,6 +660,12 @@ public class Main {
             System.out.println("         spy: true");
         }else{
             System.out.println("         spy: false");
+        }
+
+        if(ifSquare(num)){
+            System.out.println("      square: true");
+        }else{
+            System.out.println("      square: false");
         }
 
         if(ifSunny(num)){
